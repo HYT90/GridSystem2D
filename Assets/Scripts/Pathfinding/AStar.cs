@@ -26,12 +26,14 @@ public class AStar
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
-        openList = new List<PathNode> { startNode};
+        startNode.ClearPath();
+
+        openList = new List<PathNode> { startNode };
         closeList = new List<PathNode>();
 
-        for(int x = 0; x<grid.GetWidth(); ++x)
+        for(int x = 0; x < grid.GetWidth(); ++x)
         {
-            for(int y = 0; y<grid.GetHeight(); ++y)
+            for(int y = 0; y < grid.GetHeight(); ++y)
             {
                 PathNode pathNode = grid.GetGridObject(x, y);
                 pathNode.gCost = int.MaxValue;
@@ -113,17 +115,39 @@ public class AStar
                 neighbourList.Add(GetPathNode(_currentNode.x + 1, _currentNode.y - 1));
             }
         }
-        if (_currentNode.y == 0 || _currentNode.y == grid.GetHeight() - 1)//y¶b¤£ÅÜ
+        if (_currentNode.x > 0)
         {
-            if (_currentNode.x > 0)
-            {
-                neighbourList.Add(GetPathNode(_currentNode.x - 1, _currentNode.y));
-            }
-            if (_currentNode.x < grid.GetWidth() - 1)
-            {
-                neighbourList.Add(GetPathNode(_currentNode.x + 1, _currentNode.y));
-            }
+            neighbourList.Add(GetPathNode(_currentNode.x - 1, _currentNode.y));
         }
+        if (_currentNode.x < grid.GetWidth() - 1)
+        {
+            neighbourList.Add(GetPathNode(_currentNode.x + 1, _currentNode.y));
+        }
+
+        /*
+        if (currentNode.x - 1 >= 0)
+        {
+            // Left
+            neighbourList.Add(GetPathNode(currentNode.x - 1, currentNode.y));
+            // Left Down
+            if (currentNode.y - 1 >= 0) neighbourList.Add(GetPathNode(currentNode.x - 1, currentNode.y - 1));
+            // Left Up
+            if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetPathNode(currentNode.x - 1, currentNode.y + 1));
+        }
+        if (currentNode.x + 1 < grid.GetWidth())
+        {
+            // Right
+            neighbourList.Add(GetPathNode(currentNode.x + 1, currentNode.y));
+            // Right Down
+            if (currentNode.y - 1 >= 0) neighbourList.Add(GetPathNode(currentNode.x + 1, currentNode.y - 1));
+            // Right Up
+            if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetPathNode(currentNode.x + 1, currentNode.y + 1));
+        }
+        // Down
+        if (currentNode.y - 1 >= 0) neighbourList.Add(GetPathNode(currentNode.x, currentNode.y - 1));
+        // Up
+        if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetPathNode(currentNode.x, currentNode.y + 1));
+        */
 
         return neighbourList;
     }
@@ -161,9 +185,9 @@ public class AStar
     {
         PathNode lowestNode = _openList[0];
 
-        for(int i = 1; i<_openList.Count; i++)
+        for(int i = 1; i < _openList.Count; i++)
         {
-            if(lowestNode.FCost > _openList[i].FCost)
+            if(lowestNode.FCost > _openList[i].FCost || (lowestNode.FCost == _openList[i].FCost && lowestNode.hCost > _openList[i].hCost))
             {
                 lowestNode = _openList[i];
             }

@@ -37,7 +37,7 @@ public class Grid<GenericGridObject>
             }
         }
 
-        bool showGridDetail = false;
+        bool showGridDetail = true;
         if (!showGridDetail) return;
         TextMesh[,] debugTextArray = new TextMesh[width, height];
         for (int x = 0; x < gridArray.GetLength(0); ++x)

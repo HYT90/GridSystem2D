@@ -51,12 +51,15 @@ public class PathfindingVisual : MonoBehaviour
 
                 PathNode pathNode = grid.GetGridObject(x, y);
 
-                if (pathNode.isWalkable)
+                if (pathNode.isWalkable && !pathNode.isFinalPath)
                 {
                     quadSize = Vector3.zero;
                 }
 
-                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.zero, Vector2.zero);
+                if (pathNode.isFinalPath)
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.one, Vector2.one);
+                else
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.zero, Vector2.zero);
             }
         }
 

@@ -15,6 +15,7 @@ public class PathNode
 
     public PathNode previousNode;
     public bool isWalkable { get; private set; }
+    public bool isFinalPath { get; private set; }
 
     public PathNode(Grid<PathNode> _grid, int _x, int _y)
     {
@@ -31,12 +32,30 @@ public class PathNode
 
     public void SetIsWalkable()
     {
-        isWalkable = !isWalkable;
+        ClearPath();
+        isWalkable = false;
+        grid.TriggerGridObjectChanged(x, y);
+    }
+
+    public void SetIsFinalPath()
+    {
+        isFinalPath = true;
         grid.TriggerGridObjectChanged(x, y);
     }
 
     public override string ToString()
     {
         return x + "," + y;
+    }
+
+    public void ClearPath()
+    {
+        for(int i = 0; i < grid.GetWidth(); i++)
+        {
+            for(int j = 0; j < grid.GetHeight(); ++j)
+            {
+                grid.GetGridObject(i, j).isFinalPath = false;
+            }
+        }
     }
 }
