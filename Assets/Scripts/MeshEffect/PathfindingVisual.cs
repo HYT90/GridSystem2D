@@ -53,10 +53,15 @@ public class PathfindingVisual : MonoBehaviour
 
                 if (pathNode.isWalkable)
                 {
-                    quadSize = Vector3.zero;
+                    //quadSize = Vector3.zero;
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.one, Vector2.one);
                 }
-
-                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.zero, Vector2.zero);
+                else
+                {
+                    //quadSize = Vector3.zero;
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.zero, Vector2.zero);
+   
+                }
             }
         }
 
