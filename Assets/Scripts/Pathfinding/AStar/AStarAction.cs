@@ -41,4 +41,9 @@ public class AStarAction : MonoBehaviour
             pathfinding.GetGrid().GetGridObject(mouseWorldPosition).SetIsWalkable();
         }
     }
+
+    public void Clear()
+    {
+        pathfinding.GetGrid().GetGridObject(0, 0).ClearObstacle();
+    }
 }

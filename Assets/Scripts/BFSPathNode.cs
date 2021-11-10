@@ -2,22 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNode
+public class BFSPathNode
 {
-    private Grid<PathNode> grid;
+    private Grid<BFSPathNode> grid;
     public int x { get; private set; }
     public int y { get; private set; }
 
-    public int gCost;
-    public int hCost;
+    public int distance { get; private set; }
 
-    public int FCost { get; private set; }
-
-    public PathNode previousNode;
+    public BFSPathNode previousNode;
     public bool isWalkable { get; private set; }
     public bool isFinalPath { get; private set; }
 
-    public PathNode(Grid<PathNode> _grid, int _x, int _y)
+    public BFSPathNode(Grid<BFSPathNode> _grid, int _x, int _y)
     {
         grid = _grid;
         x = _x;
@@ -25,14 +22,24 @@ public class PathNode
         isWalkable = true;
     }
 
-    public void CalculateFCost()
+    public void StartPoint()
     {
-        FCost = gCost + hCost;
+        distance = -1;
+    }
+
+    public void DistancePlus()
+    {
+        distance++;
+    }
+
+    public void ShortDistance(int d)
+    {
+        distance = d + 1;
     }
 
     public void SetIsWalkable()
     {
-        ClearPath();
+        ClearPath(grid);
         isWalkable = false;
         grid.TriggerGridObjectChanged(x, y);
     }
@@ -48,12 +55,14 @@ public class PathNode
         return x + "," + y;
     }
 
-    public void ClearPath()
+    public static void ClearPath(Grid<BFSPathNode> grid)
     {
         for(int i = 0; i < grid.GetWidth(); i++)
         {
             for(int j = 0; j < grid.GetHeight(); ++j)
             {
+                grid.GetGridObject(i, j).previousNode = null;
+                grid.GetGridObject(i, j).distance = 0;
                 grid.GetGridObject(i, j).isFinalPath = false;
             }
         }
