@@ -18,55 +18,39 @@ public class BFS : MonoBehaviour
 
     public List<BFSPathNode> FindPath(int sx, int sy, int ex, int ey)
     {
-        BFSPathNode.ClearPath(grid);
         var start = grid.GetGridObject(sx, sy);
         var end = grid.GetGridObject(ex, ey);
-        if (start == end) return new List<BFSPathNode>() { end};
 
-        start.StartPoint();
+        start.SetIsStart();
 
-        List<BFSPathNode> station = GetNeighbourlist(start);
-        foreach(var s in station)
-        {
-            if (!s.isWalkable) continue;
-            s.DistancePlus();
-            s.previousNode = start;
-        }
+        List<BFSPathNode> station = new List<BFSPathNode>() { start};
 
         while (station.Count > 0)
         {
             List<BFSPathNode> tmp = new List<BFSPathNode>(station);
             foreach(var s in tmp)
             {
-                if(s == end)
+                if (s == end)
                 {
-                    return FinalPath(s);
+                    return FinalPath(end);
                 }
                 List<BFSPathNode> update = GetNeighbourlist(s);
                 foreach(var t in update)
                 {
-                    if (!t.isWalkable) continue;
-                    if(t.distance > s.distance)
-                    {
-                        t.ShortDistance(s.distance);
-                        t.previousNode = s;
-                    }
-                    else if(t.distance > 0 && t.distance < s.distance)
-                    {
-                        s.ShortDistance(t.distance);
-                        s.previousNode = t;
-                    }else if(t.distance == 0)
+                    if (!t.isWalkable || t.isStart) continue;
+                    if (t.distance == 0)
                     {
                         t.ShortDistance(s.distance);
                         t.previousNode = s;
                         station.Add(t);
-                    }
+                    }/*else if (t.distance + 1 > s.distance)
+                    {
+                        t.ShortDistance(s.distance);
+                        t.previousNode = s;
+                    }*/
                 }
             }
-            for(int i = 0; i < tmp.Count; ++i)
-            {
-                station.RemoveAt(0);
-            }
+            station.RemoveRange(0, tmp.Count);
         }
 
         return null;
@@ -75,12 +59,12 @@ public class BFS : MonoBehaviour
     List<BFSPathNode> FinalPath(BFSPathNode _end)
     {
         List<BFSPathNode> result = new List<BFSPathNode>() { _end };
-        BFSPathNode pre = _end;
+        BFSPathNode pre = _end.previousNode;
 
-        while(pre.previousNode != null)
+        while(pre != null)
         {
-            pre = pre.previousNode;
             result.Add(pre);
+            pre = pre.previousNode;
         }
 
         result.Reverse();

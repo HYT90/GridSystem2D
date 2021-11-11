@@ -51,15 +51,17 @@ public class BFSVisual : MonoBehaviour
 
                 BFSPathNode pathNode = grid.GetGridObject(x, y);
 
-                if (pathNode.isWalkable && !pathNode.isFinalPath)
+                if (pathNode.isWalkable && !pathNode.isFinalPath && pathNode.distance == 0)
                 {
                     quadSize = Vector3.zero;
                 }
 
                 if (pathNode.isFinalPath)
                     MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.one, Vector2.one);
-                else
+                else if(!pathNode.isWalkable)
                     MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.zero, Vector2.zero);
+                else if(pathNode.distance > 0)
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * 0.5f, 0f, quadSize, Vector2.one * .5f, Vector2.one * .5f);
             }
         }
 

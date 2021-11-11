@@ -11,6 +11,8 @@ public class BFSPathNode
     public int distance { get; private set; }
 
     public BFSPathNode previousNode;
+
+    public bool isStart { get; private set; }
     public bool isWalkable { get; private set; }
     public bool isFinalPath { get; private set; }
 
@@ -22,19 +24,14 @@ public class BFSPathNode
         isWalkable = true;
     }
 
-    public void StartPoint()
-    {
-        distance = -1;
-    }
-
-    public void DistancePlus()
-    {
-        distance++;
-    }
-
     public void ShortDistance(int d)
     {
         distance = d + 1;
+    }
+
+    public void SetIsStart()
+    {
+        isStart = true;
     }
 
     public void SetIsWalkable()
@@ -52,7 +49,7 @@ public class BFSPathNode
 
     public override string ToString()
     {
-        return x + "," + y;
+        return distance.ToString();
     }
 
     public static void ClearPath(Grid<BFSPathNode> grid)
@@ -61,6 +58,7 @@ public class BFSPathNode
         {
             for(int j = 0; j < grid.GetHeight(); ++j)
             {
+                grid.GetGridObject(i, j).isStart = false;
                 grid.GetGridObject(i, j).previousNode = null;
                 grid.GetGridObject(i, j).distance = 0;
                 grid.GetGridObject(i, j).isFinalPath = false;
@@ -74,6 +72,9 @@ public class BFSPathNode
         {
             for (int j = 0; j < grid.GetHeight(); ++j)
             {
+                grid.GetGridObject(i, j).distance = 0;
+                grid.GetGridObject(i, j).isFinalPath = false;
+                grid.GetGridObject(i, j).isStart = false;
                 grid.GetGridObject(i, j).isWalkable = true;
                 grid.TriggerGridObjectChanged(i, j);
             }

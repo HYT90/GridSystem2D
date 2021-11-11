@@ -17,12 +17,18 @@ public class PathNode
     public bool isWalkable { get; private set; }
     public bool isFinalPath { get; private set; }
 
-    public PathNode(Grid<PathNode> _grid, int _x, int _y)
+    public bool isChecked { get; private set; }
+public PathNode(Grid<PathNode> _grid, int _x, int _y)
     {
         grid = _grid;
         x = _x;
         y = _y;
         isWalkable = true;
+    }
+
+    public void IsChecked()
+    {
+        isChecked = true;
     }
 
     public void CalculateFCost()
@@ -54,6 +60,7 @@ public class PathNode
         {
             for(int j = 0; j < grid.GetHeight(); ++j)
             {
+                grid.GetGridObject(i, j).isChecked = false;
                 grid.GetGridObject(i, j).isFinalPath = false;
             }
         }
@@ -65,6 +72,8 @@ public class PathNode
         {
             for (int j = 0; j < grid.GetHeight(); ++j)
             {
+                grid.GetGridObject(i, j).isFinalPath = false;
+                grid.GetGridObject(i, j).isChecked = false;
                 grid.GetGridObject(i, j).isWalkable = true;
                 grid.TriggerGridObjectChanged(i, j);
             }

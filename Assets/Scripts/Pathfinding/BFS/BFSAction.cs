@@ -24,6 +24,7 @@ public class BFSAction : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePos = UtilsClass.GetMouseWorldPosition();
+            BFSPathNode.ClearPath(pathfinding.GetGrid());
             pathfinding.GetGrid().GetGridXY(mousePos, out int x, out int y);
             List<BFSPathNode> path = pathfinding.FindPath(0, 0, x, y);
             if(path != null)
@@ -39,6 +40,11 @@ public class BFSAction : MonoBehaviour
         {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetGridObject(mouseWorldPosition).SetIsWalkable();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Clear();
         }
     }
 

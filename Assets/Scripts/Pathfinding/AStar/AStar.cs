@@ -59,6 +59,7 @@ public class AStar
 
             foreach(PathNode neighbourNode in GetNeighbourlist(currentNode))
             {
+                neighbourNode.IsChecked();
                 if (closeList.Contains(neighbourNode))
                 {
                     continue;

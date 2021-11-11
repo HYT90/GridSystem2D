@@ -40,6 +40,11 @@ public class AStarAction : MonoBehaviour
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetGridObject(mouseWorldPosition).SetIsWalkable();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Clear();
+        }
     }
 
     public void Clear()
