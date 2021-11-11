@@ -4,4 +4,6 @@
  目前實作兩種尋徑演算法 :
  A*、BFS
  
+ TODO : Flow Field Pathfinding
+ 
  Unity版本 : 2021.1.0f1
