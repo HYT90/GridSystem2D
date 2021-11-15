@@ -1,7 +1,7 @@
 # GridSystem2D
  2D座標系統
  
- 目前實做兩種尋徑演算法 :
+ 目前實作兩種尋徑演算法 :
  A*、BFS
  
  TODO : Flow Field Pathfinding
