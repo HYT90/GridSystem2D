@@ -40,6 +40,9 @@ public class FlowField
         int terrainMask = LayerMask.GetMask("Impassible", "RoughTerrain");
         foreach(Cell curCell in grid)
         {
+            curCell.IncreaseCost(UnityEngine.Random.Range(0, 255));
+
+            /*
             Collider[] obstacle = Physics.OverlapBox(curCell.worldPos, cellHalfExtents, Quaternion.identity, terrainMask);
             bool hasIncreasedCost = false;
             foreach(var col in obstacle)
@@ -54,6 +57,7 @@ public class FlowField
                     hasIncreasedCost = true;
                 }
             }
+            */
         }
     }
 
